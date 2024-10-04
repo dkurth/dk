@@ -97,17 +97,32 @@ def print_formatted(text):
     print(format_output(text))
 
 
+def get_dk_ignore():
+    '''
+    Directories in the main dk folder that are NOT commands can be specified 
+    in a .dkignore file, and they will not show up in the list output.
+    '''
+    dk_ignore_path = "../.dkignore"
+    if os.path.exists(dk_ignore_path):
+        with open(dk_ignore_path, "r") as fh:
+            ignore_these = [line.strip() for line in fh.readlines()]
+        return ignore_these
+    return []
+
 # Ensure the current directory context is this script's directory
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
 
-# Get a list of all directories in the parent
-directories = [name for name in os.listdir('..') if os.path.isdir(f"../{name}")]
 
-directories.sort()
+
 
 if len(sys.argv) == 1:
     # short description
+    # Get a list of all directories in the parent
+    directories = [name for name in os.listdir('..') if os.path.isdir(f"../{name}")]
+    directories_to_ignore = get_dk_ignore()
+    directories = [d for d in directories if d not in directories_to_ignore]
+    directories.sort()
     output = [(d, parse_description(d)['short']) for d in directories]
     print_table(output)
 else:

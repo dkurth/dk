@@ -2,13 +2,13 @@ import os
 import sys
 import importlib.util
 
-def run_command(command_name, args):
+def run_command(command, args):
     try:
         # save the args and working dir before modifying them
         args_orig = sys.argv
         cwd_orig = os.getcwd()
 
-        command_script = "index.py"        
+        command_script = "index.py" 
         os.chdir(command)
         sys.argv = [command_script] + args
         
@@ -17,13 +17,13 @@ def run_command(command_name, args):
         index = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(index)
     except Exception as e:
-        print(f"Failed to execute {command_name}: {e}")
+        print(f"Failed to execute {command}: {e}")
     finally:
         # put back the original args, in case it matters
         sys.argv = args_orig
         os.chdir(cwd_orig)
 
-if __name__ == "__main__":
+def main():
 
     if len(sys.argv) == 1:
         command = "list"
@@ -38,4 +38,6 @@ if __name__ == "__main__":
         sys.exit(1)
     
     run_command(command, args)
-    
+
+if __name__ == "__main__":
+    main()

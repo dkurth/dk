@@ -39,9 +39,7 @@ shutil.copy(
      os.path.join("..", command, "description.md")
 )
 
-
-
-
+# Update description.md to include the actual command name
 with open(os.path.join("..", command, "description.md"), 'r') as fh:
     desc = fh.read()
 
