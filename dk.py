@@ -25,6 +25,14 @@ def run_command(command, args):
 
 def main():
 
+    print("cwd = ", os.getcwd())
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_dir)
+
+    print("cwd = ", os.getcwd())
+
+
     if len(sys.argv) == 1:
         command = "list"
     else:
