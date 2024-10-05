@@ -27,3 +27,10 @@ Each command goes in its own directory. In fact, `list` is just a directory. So 
 ## Why do this? 
 
 To have a single project that collects useful scripts that I might otherwise forget about.
+
+## How to set up the "dk" command
+
+sudo cp dk.sh /usr/local/bin/dk
+sudo chmod +x /usr/local/bin/dk
+
+Do not try to install it with `pip install .` -- this creates a binary which is not in the right place relative to the directories of command code for things to work.

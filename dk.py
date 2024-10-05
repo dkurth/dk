@@ -1,5 +1,6 @@
 import os
 import sys
+import importlib
 import importlib.util
 
 def run_command(command, args):
@@ -31,7 +32,6 @@ def main():
     os.chdir(script_dir)
 
     print("cwd = ", os.getcwd())
-
 
     if len(sys.argv) == 1:
         command = "list"
