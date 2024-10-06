@@ -6,8 +6,13 @@ import sys
 Notes go here.
 '''
 
-# Ensure the current directory context is this script's directory
-script_dir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(script_dir)
+execution_context = sys.argv[1]
+# args with the execution_context stripped out (so args[0] is the first argument)
+args = sys.argv[2:]
+
+# Move into the directory from which the dk command was executed by the user
+# (Remove this if you need to start in the directory containing this command's code)
+os.chdir(execution_context)
 
 # Begin main code here
+

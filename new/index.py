@@ -7,19 +7,21 @@ import shutil
 Set up boilerplate for a new command.
 '''
 
-# Ensure the current directory context is this script's directory
-script_dir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(script_dir)
+execution_context = sys.argv[1]
+args = sys.argv[2:]
 
 # Begin main code here
 
+# Ensure the current directory context is this script's directory
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
 # You must provide a command name
-if len(sys.argv) == 1:
+if len(args) == 0:
     print("Please provide a command name: `dk new-command my-command-name`")
     sys.exit()
 
 # Ensure the command does not already exist
-command = sys.argv[1]
+command = args[0]
 directories = [name for name in os.listdir('..') if os.path.isdir(f"../{name}")]
 if command in directories:
     print(f"{command} already exists!")

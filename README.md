@@ -34,3 +34,48 @@ sudo cp dk.sh /usr/local/bin/dk
 sudo chmod +x /usr/local/bin/dk
 
 Do not try to install it with `pip install .` -- this creates a binary which is not in the right place relative to the directories of command code for things to work.
+
+
+## Ideas for commands
+
+### dk config
+
+Set user-specific config details.
+
+### dk edit {command}
+
+One thing you can configure is your editor. This should store just a string of text - could be anything. For me it would be "code", but it could be "vim" or "rm" (ha!), or whatever.
+
+Running `dk edit some-command` would cd to the `some-command` directory and run `code .`.
+
+### module design
+
+Basic commands like "list" and "new" are part of the dk repo. But other commands can get their own repos.
+
+If you run `dk install gh:dkurth/something`, it will clone the "something" repo. That repo could be public or private, so this would let me have some personal commands that I don't have to make public. Commands can be updated without publishing a whole new version of dk. And other people could write their own commands.
+
+Maybe `dk new dreamhostify` creates a local dk/dreamhostify directory, you write the code, and then you can run `dk publish dreamhostify` to create a repo. It could prompt you to make it public or private.
+
+I think this will get easier if the built-in commands live in a `dk/core` directory. All commands the user installs (or creates) will go under `dk/commands`. This folder is not tracked in git, since the individual commands will have their own git repos.
+
+
+### dk print
+
+echo "Hello, printer" | lp -d Brother_MFC_L2700DW_series
+
+I wonder what characters you can print this way. Emoji? Borders? How can I spool a bunch of stuff to the printer? What if I pipe a text file to it? What if I pipe a pdf? And can I limit it to 1 page of output, to avoid accidentally printing 100 pages of binary data?
+
+If I put an "!" in the message, bash tries to interpret it, and it doesn't work.
+
+Maybe include this in dk, like:
+
+dk print "some text here"
+
+---
+
+Idea: assemble a page (like a newspaper, or recent tweets, or whatever) into some text, then pipe that to the printer.
+
+dk tweets --funny --count=10 | dk print
+
+That should print 10 funny tweets. (How does it know which tweets are funny? Hmm, an exercise left to the reader...)
+

@@ -109,14 +109,9 @@ def get_dk_ignore():
         return ignore_these
     return []
 
-# Ensure the current directory context is this script's directory
-script_dir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(script_dir)
+execution_context = sys.argv[1]
 
-
-
-
-if len(sys.argv) == 1:
+if len(sys.argv) <= 2:
     # short description
     # Get a list of all directories in the parent
     directories = [name for name in os.listdir('..') if os.path.isdir(f"../{name}")]
@@ -127,6 +122,6 @@ if len(sys.argv) == 1:
     print_table(output)
 else:
     # long description
-    command = sys.argv[1]
+    command = sys.argv[2]
     print_formatted(parse_description(command)['long'])
 
