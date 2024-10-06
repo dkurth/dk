@@ -39,6 +39,12 @@ def parse_description(command):
     return descriptions
 
 
+def print_header(header):
+    print(f'''
+=== {header} ===
+''')
+
+
 def print_table(data, col_width=None):
     '''
     Given tuples of two items each, print them as a left and right column.
@@ -49,6 +55,7 @@ def print_table(data, col_width=None):
 
     for left, right in data:
         print(
+            "",
             format_output(left.ljust(col_width)), 
             format_output(right.ljust(col_width))
         )
@@ -109,17 +116,37 @@ def get_dk_ignore():
         return ignore_these
     return []
 
-execution_context = sys.argv[1]
+
+def get_all_commands():
+    os.chdir("../..")
+    core_commands = [name for name in os.listdir('core') if os.path.isdir(os.path.join('core', name))]
+    user_commands = [name for name in os.listdir('commands') if os.path.isdir(os.path.join('commands', name))]
+    os.chdir("core/list")
+
+    directories_to_ignore = get_dk_ignore()
+
+    core_commands = [d for d in core_commands if d not in directories_to_ignore]
+    core_commands.sort()
+
+    user_commands = [d for d in user_commands if d not in directories_to_ignore]
+    user_commands.sort()
+
+    return {'core': core_commands, 'user': user_commands}
+
+
+# The list command does not use the execution_context
+# execution_context = sys.argv[1]
 
 if len(sys.argv) <= 2:
     # short description
-    # Get a list of all directories in the parent
-    directories = [name for name in os.listdir('..') if os.path.isdir(f"../{name}")]
-    directories_to_ignore = get_dk_ignore()
-    directories = [d for d in directories if d not in directories_to_ignore]
-    directories.sort()
-    output = [(d, parse_description(d)['short']) for d in directories]
+    commands = get_all_commands()
+    print_header("Core Commands")
+    output = [(d, parse_description(d)['short']) for d in commands['core']]
     print_table(output)
+    print_header("User Commands")
+    output = [(d, parse_description(d)['short']) for d in commands['user']]
+    print_table(output)
+
 else:
     # long description
     command = sys.argv[2]

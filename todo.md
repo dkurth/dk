@@ -1,6 +1,5 @@
 TODO
 
-- right now, the dk command only works when run from the dk folder!
 - move the print_formatted code into a single place that can be shared by all commands
 - set up dreamhostify
     dk new dreamhostify

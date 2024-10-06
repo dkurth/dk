@@ -32,13 +32,19 @@ def main():
     # check whether the command exists
     os.chdir(dk_context)
 
-    directories = [name for name in os.listdir('.') if os.path.isdir(name)]
-    if not command in directories:
+    core_commands = [name for name in os.listdir('core') if os.path.isdir(os.path.join('core', name))]
+    user_commands = [name for name in os.listdir('commands') if os.path.isdir(os.path.join('commands', name))]
+
+    if command in core_commands:
+        command_dir = f"core/{command}"
+    elif command in user_commands:
+        command_dir = f"commands/{command}"
+    else:
         print("I do not recognize that command. Run `dk list` to see a list of commands.")
         sys.exit(1)
 
     # move into the command directory 
-    os.chdir(command)
+    os.chdir(command_dir)
     
     # run the command    
     try:
