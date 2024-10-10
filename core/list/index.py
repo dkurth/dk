@@ -10,18 +10,21 @@ This code can be run two ways:
     list {command} - print the long description of a single command
 '''
 
-def parse_description(command):
+CORE_COMMAND_DIR = 'core'
+USER_COMMAND_DIR = 'commands'
+
+def parse_description(root_dir, command):
     '''
     Parse the short and long descriptiong from a command's description.md file.
     '''
 
-    markdown_file = f"../{command}/description.md"
+    markdown_file = f"../../{root_dir}/{command}/description.md"
 
     # The lack of a description is not a fireable offense.
     if not os.path.isfile(markdown_file):
         return {
-            "short": f"(no description provided)",
-            "long": f"(no description provided)",
+            "short": f"No description.md file found at {markdown_file}, cwd={os.getcwd()}",
+            "long":  f"No description.md file found at {markdown_file}, cwd={os.getcwd()}",
         }
 
     with open(markdown_file, 'r') as file:
@@ -119,9 +122,9 @@ def get_dk_ignore():
 
 def get_all_commands():
     os.chdir("../..")
-    core_commands = [name for name in os.listdir('core') if os.path.isdir(os.path.join('core', name))]
-    user_commands = [name for name in os.listdir('commands') if os.path.isdir(os.path.join('commands', name))]
-    os.chdir("core/list")
+    core_commands = [name for name in os.listdir(CORE_COMMAND_DIR) if os.path.isdir(os.path.join(CORE_COMMAND_DIR, name))]
+    user_commands = [name for name in os.listdir(USER_COMMAND_DIR) if os.path.isdir(os.path.join(USER_COMMAND_DIR, name))]
+    os.chdir(os.path.join(CORE_COMMAND_DIR, 'list'))
 
     directories_to_ignore = get_dk_ignore()
 
@@ -136,19 +139,25 @@ def get_all_commands():
 
 # The list command does not use the execution_context
 # execution_context = sys.argv[1]
+args = sys.argv[2:]
 
-if len(sys.argv) <= 2:
+if len(args) == 0:
     # short description
     commands = get_all_commands()
     print_header("Core Commands")
-    output = [(d, parse_description(d)['short']) for d in commands['core']]
+    output = [(d, parse_description(CORE_COMMAND_DIR, d)['short']) for d in commands['core']]
     print_table(output)
     print_header("User Commands")
-    output = [(d, parse_description(d)['short']) for d in commands['user']]
+    output = [(d, parse_description(USER_COMMAND_DIR, d)['short']) for d in commands['user']]
     print_table(output)
-
 else:
     # long description
-    command = sys.argv[2]
-    print_formatted(parse_description(command)['long'])
+    command = args[0]
+    commands = get_all_commands()
+    if command in commands['core']:
+        print_formatted(parse_description(CORE_COMMAND_DIR, command)['long'])
+    elif command in commands['user']:
+        print_formatted(parse_description(USER_COMMAND_DIR, command)['long'])
+    else:
+        print("Something weird happened.")
 
