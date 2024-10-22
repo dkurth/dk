@@ -1,6 +1,6 @@
 # short
 
-List all commands available.
+List all commands available (like this!)
 
 # long
 

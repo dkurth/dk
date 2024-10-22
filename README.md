@@ -79,3 +79,16 @@ dk tweets --funny --count=10 | dk print
 
 That should print 10 funny tweets. (How does it know which tweets are funny? Hmm, an exercise left to the reader...)
 
+## How autocomplete works
+
+`dk list --quiet` will print just a list of possible commands, one per line.
+
+Add this to your ~/.zshrc to get tab autocompletion for the dk command:
+
+```sh
+# Add dynamic autocomplete to the dk command
+_dk_completion() {
+    compadd $(dk list --quiet)
+}
+compdef _dk_completion dk
+```

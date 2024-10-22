@@ -10,6 +10,7 @@ This code can be run two ways:
     list {command} - print the long description of a single command
 '''
 
+# TODO define these in {root}/shared and import them. Maybe should go in a config.yml.
 CORE_COMMAND_DIR = 'core'
 USER_COMMAND_DIR = 'commands'
 
@@ -120,6 +121,7 @@ def get_dk_ignore():
     return []
 
 
+# TODO move this to {root}/shared/utils.py
 def get_all_commands():
     os.chdir("../..")
     core_commands = [name for name in os.listdir(CORE_COMMAND_DIR) if os.path.isdir(os.path.join(CORE_COMMAND_DIR, name))]
@@ -141,7 +143,12 @@ def get_all_commands():
 # execution_context = sys.argv[1]
 args = sys.argv[2:]
 
-if len(args) == 0:
+# special case -- quiet mode, just print out the command names, one per line
+if len(args) == 1 and (args[0] == '--quiet' or args[0] == '-q'):
+    commands = get_all_commands()
+    [print(d) for d in commands['core']]
+    [print(d) for d in commands['user']]
+elif len(args) == 0:
     # short description
     commands = get_all_commands()
     print_header("Core Commands")
