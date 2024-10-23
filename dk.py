@@ -9,7 +9,6 @@ import importlib.util
 # This is the directory from which dk was initially run.
 # Some commands (like "list") won't use this, but many will.
 
-
 CORE_COMMMANDS_DIR = "core"
 USER_COMMANDS_DIR = "user"
 
@@ -43,7 +42,7 @@ def main():
     elif command in user_commands:
         command_dir = f"{USER_COMMANDS_DIR}/{command}"
     else:
-        print("I do not recognize that command. Run `dk list` to see a list of commands.")
+        print(f"I do not recognize the command '{command}'. Run `dk list` to see a list of commands.")
         sys.exit(1)
 
     # move into the command directory 

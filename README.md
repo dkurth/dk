@@ -56,7 +56,7 @@ If you run `dk install gh:dkurth/something`, it will clone the "something" repo.
 
 Maybe `dk new dreamhostify` creates a local dk/dreamhostify directory, you write the code, and then you can run `dk publish dreamhostify` to create a repo. It could prompt you to make it public or private.
 
-I think this will get easier if the built-in commands live in a `dk/core` directory. All commands the user installs (or creates) will go under `dk/commands`. This folder is not tracked in git, since the individual commands will have their own git repos.
+I think this will get easier if the built-in commands live in a `dk/core` directory. All commands the user installs (or creates) will go under `dk/user`. This folder is not tracked in git, since the individual commands will have their own git repos.
 
 
 ### dk print
