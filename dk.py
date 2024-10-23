@@ -10,6 +10,9 @@ import importlib.util
 # Some commands (like "list") won't use this, but many will.
 
 
+CORE_COMMMANDS_DIR = "core"
+USER_COMMANDS_DIR = "user"
+
 def main():
 
     # save the directory in which the dk command was run
@@ -32,13 +35,13 @@ def main():
     # check whether the command exists
     os.chdir(dk_context)
 
-    core_commands = [name for name in os.listdir('core') if os.path.isdir(os.path.join('core', name))]
-    user_commands = [name for name in os.listdir('commands') if os.path.isdir(os.path.join('commands', name))]
+    core_commands = [name for name in os.listdir(CORE_COMMMANDS_DIR) if os.path.isdir(os.path.join(CORE_COMMMANDS_DIR, name))]
+    user_commands = [name for name in os.listdir(USER_COMMANDS_DIR) if os.path.isdir(os.path.join(USER_COMMANDS_DIR, name))]
 
     if command in core_commands:
-        command_dir = f"core/{command}"
+        command_dir = f"{CORE_COMMMANDS_DIR}/{command}"
     elif command in user_commands:
-        command_dir = f"commands/{command}"
+        command_dir = f"{USER_COMMANDS_DIR}/{command}"
     else:
         print("I do not recognize that command. Run `dk list` to see a list of commands.")
         sys.exit(1)

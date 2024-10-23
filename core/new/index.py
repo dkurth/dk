@@ -12,6 +12,8 @@ args = sys.argv[2:]
 
 # Begin main code here
 
+USER_COMMANDS_DIR = 'user'
+
 # You must provide a command name
 if len(args) == 0:
     print("Please provide a command name: `dk new-command my-command-name`")
@@ -25,7 +27,7 @@ if command in directories:
     sys.exit(1)
 
 # Create the directory for the command
-command_dir = f"../../commands/{command}"
+command_dir = f"../../{USER_COMMANDS_DIR}/{command}"
 os.mkdir(command_dir)
 
 # Copy the boilerplate Python and description files

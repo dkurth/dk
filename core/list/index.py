@@ -11,8 +11,8 @@ This code can be run two ways:
 '''
 
 # TODO define these in {root}/shared and import them. Maybe should go in a config.yml.
-CORE_COMMAND_DIR = 'core'
-USER_COMMAND_DIR = 'commands'
+CORE_COMMANDS_DIR = 'core'
+USER_COMMANDS_DIR = 'user'
 
 def parse_description(root_dir, command):
     '''
@@ -124,9 +124,9 @@ def get_dk_ignore():
 # TODO move this to {root}/shared/utils.py
 def get_all_commands():
     os.chdir("../..")
-    core_commands = [name for name in os.listdir(CORE_COMMAND_DIR) if os.path.isdir(os.path.join(CORE_COMMAND_DIR, name))]
-    user_commands = [name for name in os.listdir(USER_COMMAND_DIR) if os.path.isdir(os.path.join(USER_COMMAND_DIR, name))]
-    os.chdir(os.path.join(CORE_COMMAND_DIR, 'list'))
+    core_commands = [name for name in os.listdir(CORE_COMMANDS_DIR) if os.path.isdir(os.path.join(CORE_COMMANDS_DIR, name))]
+    user_commands = [name for name in os.listdir(USER_COMMANDS_DIR) if os.path.isdir(os.path.join(USER_COMMANDS_DIR, name))]
+    os.chdir(os.path.join(CORE_COMMANDS_DIR, 'list'))
 
     directories_to_ignore = get_dk_ignore()
 
@@ -151,20 +151,22 @@ if len(args) == 1 and (args[0] == '--quiet' or args[0] == '-q'):
 elif len(args) == 0:
     # short description
     commands = get_all_commands()
-    print_header("Core Commands")
-    output = [(d, parse_description(CORE_COMMAND_DIR, d)['short']) for d in commands['core']]
-    print_table(output)
-    print_header("User Commands")
-    output = [(d, parse_description(USER_COMMAND_DIR, d)['short']) for d in commands['user']]
+    # print_header("Core Commands")
+    output = [(d, parse_description(CORE_COMMANDS_DIR, d)['short']) for d in commands['core']]
+    # print_table(output)
+    # print_header("User Commands")
+    output.extend(
+        [(d, parse_description(USER_COMMANDS_DIR, d)['short']) for d in commands['user']]
+    )
     print_table(output)
 else:
     # long description
     command = args[0]
     commands = get_all_commands()
     if command in commands['core']:
-        print_formatted(parse_description(CORE_COMMAND_DIR, command)['long'])
+        print_formatted(parse_description(CORE_COMMANDS_DIR, command)['long'])
     elif command in commands['user']:
-        print_formatted(parse_description(USER_COMMAND_DIR, command)['long'])
+        print_formatted(parse_description(USER_COMMANDS_DIR, command)['long'])
     else:
         print("Something weird happened.")
 
