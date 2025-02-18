@@ -30,34 +30,28 @@ To have a single project that collects useful scripts that I might otherwise for
 
 ## How to set up the "dk" command
 
+```sh
 sudo cp dk.sh /usr/local/bin/dk
 sudo chmod +x /usr/local/bin/dk
+```
 
-Do not try to install it with `pip install .` -- this creates a binary which is not in the right place relative to the directories of command code for things to work.
-
-
-## Ideas for commands
-
-### dk config
-
-Set user-specific config details.
-
-### dk edit {command}
-
-One thing you can configure is your editor. This should store just a string of text - could be anything. For me it would be "code", but it could be "vim" or "rm" (ha!), or whatever.
-
-Running `dk edit some-command` would cd to the `some-command` directory and run `code .`.
-
-### module design
+## Modular Commands
 
 Basic commands like "list" and "new" are part of the dk repo. But other commands can get their own repos.
 
-If you run `dk install gh:dkurth/something`, it will clone the "something" repo. That repo could be public or private, so this would let me have some personal commands that I don't have to make public. Commands can be updated without publishing a whole new version of dk. And other people could write their own commands.
+If you run `dk install gh:dkurth/something`, it will clone the "something" repo into the `user/` directory, where user commands are kept. (You can also run it as `dk install gh:dkurth/something my_something` if you want to give the command a different name.)
 
-Maybe `dk new dreamhostify` creates a local dk/dreamhostify directory, you write the code, and then you can run `dk publish dreamhostify` to create a repo. It could prompt you to make it public or private.
+That repo could be public or private, which allows personal commands that I don't have to make public. Keeping commands in their own repos means they can be updated without publishing a whole new version of dk. And other people could write their own commands.
 
-I think this will get easier if the built-in commands live in a `dk/core` directory. All commands the user installs (or creates) will go under `dk/user`. This folder is not tracked in git, since the individual commands will have their own git repos.
+Built-in commands live in the `dk/core` directory. All commands the user installs (or creates) go under `dk/user`. This folder is not tracked in git, since the individual commands have their own git repos. Running `dk new dreamhostify` creates a local `dk/user/dreamhostify` directory, which is .gitignored. You write the code, set up a repo for it, and push to GitHub.
 
+## Ideas for improvement
+
+- add a place to put shared code that any module can call
+- a module should be able to ask dk (which called it) for things like the path to the user commands directory
+
+
+## Ideas for commands
 
 ### dk print
 
@@ -81,7 +75,7 @@ That should print 10 funny tweets. (How does it know which tweets are funny? Hmm
 
 ## How autocomplete works
 
-`dk list --quiet` will print just a list of possible commands, one per line.
+`dk list --quiet` (or `-q`) will print just a list of possible commands, one per line.
 
 Add this to your ~/.zshrc to get tab autocompletion for the dk command:
 

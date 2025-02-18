@@ -6,4 +6,4 @@ Create a new command to be run using dk.
 
 == New Command
 
-Running `dk new-command command-name` will create a command-name folder with a boilerplate index.py and a description.md.
+Running `dk new command-name` will create a command-name folder with a boilerplate index.py and a description.md.
