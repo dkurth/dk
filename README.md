@@ -28,12 +28,27 @@ Each command goes in its own directory. In fact, `list` is just a directory. So 
 
 To have a single project that collects useful scripts that I might otherwise forget about.
 
-## How to set up the "dk" command
+## How to set up the "dk" command on MacOS/Linux
 
 ```sh
 sudo cp dk.sh /usr/local/bin/dk
 sudo chmod +x /usr/local/bin/dk
 ```
+
+## How to set up the "dk" command on Windows
+
+There are many ways to do this. Here is how I did it:
+
+- Set up a file that you want to run any time you launch a new command prompt. Mine is at `c:\code\utils\aliases_windows.cmd`
+- Run this: `reg add "HKCU\Software\Microsoft\Command Processor" /v AutoRun /t REG_EXPAND_SZ /d "\"c:\code\utils\aliases_windows.cmd\"" /f`
+- Add this line to the file (update with the correct path to `dk.py` on your system): `doskey dk=python "C:\code\dk\dk.py" $*`
+
+Might seem like overkill, but I already had that file set up. It basically functions as a .bashrc for your Windows CLI.
+
+Consider also adding this to the file: `doskey alias=notepad %0`
+
+That way, you can run "alias" from the command prompt to immediately be editing the file. It's not exactly the same as "alias" on Linux, but similar.
+
 
 ## Modular Commands
 
