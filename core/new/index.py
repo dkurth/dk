@@ -42,6 +42,11 @@ shutil.copy(
      os.path.join(command_dir, "description.md")
 )
 
+shutil.copy(
+    os.path.join(script_dir, 'boilerplate.gitignore'),
+    os.path.join(command_dir, ".gitignore")
+)
+
 # Update description.md to include the actual command name
 with open(os.path.join(command_dir, "description.md"), 'r') as fh:
     desc = fh.read()
